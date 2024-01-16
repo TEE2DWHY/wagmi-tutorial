@@ -5,7 +5,7 @@ const UseGasPrice = () => {
   const { data: gasPriceDetails, isLoading: gasPriceLoading } = useGasPrice({
     chainId: mainnet.id,
   });
-  const gasPrice = gasPriceLoading ? " " : gasPriceDetails;
+  const gasPrice = gasPriceLoading || !gasPriceDetails ? " " : gasPriceDetails;
   return gasPrice;
 };
 
