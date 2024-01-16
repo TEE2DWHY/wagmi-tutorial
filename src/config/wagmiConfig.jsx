@@ -6,11 +6,11 @@ import { walletConnect, metaMask, injected } from "wagmi/connectors";
 const projectId = import.meta.env.VITE_PROJECT_ID;
 
 export const config = createConfig({
-  chains: [mainnet, arbitrum, base],
+  chains: [mainnet],
   connectors: [injected(), walletConnect({ projectId }), metaMask()],
   transports: {
     [mainnet.id]: http(),
-    [arbitrum.id]: http(),
-    [base.id]: http(),
+    // [arbitrum.id]: http(),
+    // [base.id]: http(),
   },
 });

@@ -8,8 +8,18 @@ const Account = () => {
 
   return (
     <>
-      <div>{address ? <span>{address} </span> : " "}</div>
-      <button onClick={() => disconnect()}>Disconnect</button>
+      <div>
+        {address ? (
+          <div style={{ marginBottom: "20px" }}>
+            User Address: {`${address.slice(0, 4)}...${address.slice(38)}`}
+          </div>
+        ) : (
+          " "
+        )}
+      </div>
+      <button onClick={() => disconnect()} style={{ marginRight: "10px" }}>
+        Disconnect
+      </button>
     </>
   );
 };
