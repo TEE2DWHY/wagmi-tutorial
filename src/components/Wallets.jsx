@@ -1,17 +1,11 @@
 import { useConnect } from "wagmi";
-import { Button, Modal } from "antd";
+import { Button } from "antd";
 import { useState } from "react";
 const Wallets = () => {
   const { connect, connectors } = useConnect();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(!isModalOpen);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
   };
   return (
     <>

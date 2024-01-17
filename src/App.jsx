@@ -7,7 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { config } from "./config/wagmiConfig";
 import ConnectWallet from "./components/ConnectWallet";
 import SendTransaction from "./components/SendTransaction";
-import ReadContract from "./components/ReadContract";
+import WriteContract from "./components/WriteContract";
 
 function App() {
   const queryClient = new QueryClient();
@@ -17,7 +17,7 @@ function App() {
         <QueryClientProvider client={queryClient}>
           <ConnectWallet />
           <SendTransaction />
-          <ReadContract />
+          <WriteContract />
         </QueryClientProvider>
       </WagmiProvider>
     </>
