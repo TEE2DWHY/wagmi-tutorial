@@ -56,20 +56,24 @@ const WriteContract = () => {
 
   return (
     <>
-      {contextHolder}
-      <form onSubmit={mintNft}>
-        <input
-          name="tokenId"
-          placeholder="69420"
-          onChange={(e) => {
-            e.preventDefault();
-            setTokenId(e.target.value);
-          }}
-          required
-        />
-        <button type="submit">{isPending ? "Minting..." : "Mint"}</button>
-        {hash && <span>Transaction Hash: {hash}</span>}
-      </form>
+      {address && (
+        <>
+          {contextHolder}
+          <form onSubmit={mintNft}>
+            <input
+              name="tokenId"
+              placeholder="69420"
+              onChange={(e) => {
+                e.preventDefault();
+                setTokenId(e.target.value);
+              }}
+              required
+            />
+            <button type="submit">{isPending ? "Minting..." : "Mint"}</button>
+            {hash && <span>Transaction Hash: {hash}</span>}
+          </form>
+        </>
+      )}
     </>
   );
 };
