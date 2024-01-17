@@ -41,4 +41,26 @@ export const abi = [
     stateMutability: "nonpayable",
     type: "function",
   },
+  {
+    constant: true,
+    inputs: [],
+    name: "symbol",
+    outputs: [{ internalType: "string", name: "", type: "string" }],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: false,
+    inputs: [
+      { internalType: "address", name: "src", type: "address" },
+      { internalType: "address", name: "dst", type: "address" },
+      { internalType: "uint256", name: "rawAmount", type: "uint256" },
+    ],
+    name: "transferFrom",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function",
+  },
 ];
