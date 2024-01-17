@@ -10,13 +10,9 @@ import { message } from "antd";
 const WriteContract = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const { address } = useAccount();
-  const { data: hash, isPending, writeContract } = useWriteContract();
+  const { data: hash, isPending, writeContract, error } = useWriteContract();
   const { isSuccess: transactionSuccess } = useWaitForTransactionReceipt();
   const [tokenId, setTokenId] = useState("");
-  const handleChange = (event) => {
-    event.preventDefault();
-    setTokenId(event.target.value);
-  };
   const mintNft = (event) => {
     event.preventDefault();
     writeContract({
@@ -30,25 +26,33 @@ const WriteContract = () => {
 
   useEffect(() => {
     messageApi.destroy();
-    if (isPending) {
+    isPending &&
       messageApi.open({
         type: "loading",
         content: "Transaction is Pending",
         duration: 1.5,
       });
-    }
   }, [isPending]);
 
   useEffect(() => {
     messageApi.destroy();
-    if (transactionSuccess) {
+    transactionSuccess &&
       messageApi.open({
         type: "success",
         content: "Transaction is Successful",
         duration: 1.5,
       });
-    }
   }, [transactionSuccess]);
+
+  useEffect(() => {
+    messageApi.destroy();
+    error &&
+      messageApi.open({
+        type: "error",
+        content: error.shortMessage,
+        duration: 3,
+      });
+  }, [error]);
 
   return (
     <>
@@ -57,7 +61,10 @@ const WriteContract = () => {
         <input
           name="tokenId"
           placeholder="69420"
-          onChange={handleChange}
+          onChange={(e) => {
+            e.preventDefault();
+            setTokenId(e.target.value);
+          }}
           required
         />
         <button type="submit">{isPending ? "Minting..." : "Mint"}</button>
