@@ -42,6 +42,7 @@ const SendTransaction = () => {
         content: "Balance Cannot be Zero",
         duration: 1.5,
       });
+      return;
     }
     sendTransaction({
       value: amount - gas * gasPrice,
@@ -89,7 +90,6 @@ const SendTransaction = () => {
             </Button>
           </Space>
           {hash && <div>Transaction Hash: {hash}</div>}
-          {isConfirming && <div>Waiting for Confirmation.</div>}
           {isConfirmed && <div>Transaction is Confirmed.</div>}
           {error && (
             <div style={{ color: "red", fontSize: "14px", marginTop: "10px" }}>
