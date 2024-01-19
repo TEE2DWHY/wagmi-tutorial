@@ -30,7 +30,7 @@ const WriteContract = () => {
       messageApi.open({
         type: "loading",
         content: "Transaction is Pending",
-        duration: 1.5,
+        duration: 3,
       });
   }, [isPending]);
 
@@ -40,7 +40,7 @@ const WriteContract = () => {
       messageApi.open({
         type: "success",
         content: "Transaction is Successful",
-        duration: 1.5,
+        duration: 3,
       });
   }, [transactionSuccess]);
 
@@ -64,7 +64,6 @@ const WriteContract = () => {
               name="tokenId"
               placeholder="69420"
               onChange={(e) => {
-                e.preventDefault();
                 setTokenId(e.target.value);
               }}
               required

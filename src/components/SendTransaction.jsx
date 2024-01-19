@@ -59,7 +59,7 @@ const SendTransaction = () => {
       messageApi.open({
         type: "loading",
         content: "Transaction is Pending",
-        duration: 1.5,
+        duration: 3,
       });
     }
   }, [isPending]);
@@ -70,7 +70,7 @@ const SendTransaction = () => {
       messageApi.open({
         type: "success",
         content: "Transaction is Successful",
-        duration: 1.5,
+        duration: 3,
       });
     }
   }, [transactionSuccess]);
