@@ -1,6 +1,6 @@
 // Create Configuration File: (https://wagmi.sh/react/getting-started).
 import { http, createConfig } from "wagmi";
-import { mainnet, arbitrum, base, goerli, iotex } from "viem/chains";
+import { mainnet, arbitrum, base, goerli, iotex, polygon } from "viem/chains";
 import {
   walletConnect,
   metaMask,
@@ -15,7 +15,7 @@ if (window.Buffer === undefined) {
 } // i did this to prevent the buffer error (buffer is not defined) with the coinbase wallet connector
 
 export const config = createConfig({
-  chains: [mainnet],
+  chains: [mainnet, polygon],
   connectors: [
     coinbaseWallet({
       appName: "Wagmi Tutorial",
@@ -44,6 +44,7 @@ export const config = createConfig({
   // multiInjectedProviderDiscovery: false, // Enables discovery of injected providers via EIP-6963 using the mipd library and converting to injected connectors.
   transports: {
     [mainnet.id]: http(),
+    [polygon.id]: http(),
     // [arbitrum.id]: http(),
     // [base.id]: http(),
   },

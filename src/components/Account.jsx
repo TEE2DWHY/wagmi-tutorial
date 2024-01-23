@@ -3,7 +3,6 @@ import { useAccount, useDisconnect } from "wagmi";
 const Account = () => {
   const { address } = useAccount();
   const { disconnect } = useDisconnect();
-
   return (
     <>
       <div>

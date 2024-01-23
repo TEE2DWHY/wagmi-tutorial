@@ -9,7 +9,7 @@ import { message } from "antd";
 
 const WriteContract = () => {
   const [messageApi, contextHolder] = message.useMessage();
-  const { address } = useAccount();
+  const { address, isConnected, addresses } = useAccount();
   const { data: hash, isPending, writeContract, error } = useWriteContract();
   const { isSuccess: transactionSuccess } = useWaitForTransactionReceipt();
   const [tokenId, setTokenId] = useState("");
@@ -56,10 +56,11 @@ const WriteContract = () => {
 
   return (
     <>
-      {address && (
+      {isConnected && (
         <>
           {contextHolder}
           <form onSubmit={mintNft}>
+            <div>Write Contract</div>
             <input
               name="tokenId"
               placeholder="69420"
@@ -70,6 +71,7 @@ const WriteContract = () => {
             />
             <button type="submit">{isPending ? "Minting..." : "Mint"}</button>
             {hash && <span>Transaction Hash: {hash}</span>}
+            {error && <p>{error.message}</p>}
           </form>
         </>
       )}
