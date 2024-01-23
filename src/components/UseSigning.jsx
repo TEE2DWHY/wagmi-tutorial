@@ -1,11 +1,12 @@
-import { useSignMessage, useAccount } from "wagmi";
+import { useSignMessage, useAccount, useVerifyMessage } from "wagmi";
 import { message, Space } from "antd";
 import { useEffect } from "react";
 
 const UseSigning = () => {
   const [messageApi, contextHolder] = message.useMessage();
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
   const {
+    data: signature,
     signMessage,
     isSuccess: isSigned,
     isPending: isLoading,
@@ -41,18 +42,30 @@ const UseSigning = () => {
         duration: 2,
       });
   }, [error]);
-
-  const data = "Welcome to DVO where voting power is retained.";
+  // message note
+  const note = "Welcome to DVO where voting power is retained.";
+  // verify message after signing
+  const verifyMessage = useVerifyMessage({
+    address: address,
+    message: note,
+    signature: signature,
+  });
+  isSigned && console.log("messageVerification:", verifyMessage.data);
   return (
     <>
       {isConnected && (
         <>
           {contextHolder}
           <Space>
-            <button onClick={() => signMessage({ message: data })}>
+            <button onClick={() => signMessage({ message: note })}>
               Sign Message
             </button>
           </Space>
+          {isSigned && (
+            <p style={{ fontWeight: "bold" }}>
+              Signature: {`${signature.slice(0, 4)}...${signature.slice(128)}`}
+            </p>
+          )}
         </>
       )}
     </>
